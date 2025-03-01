@@ -1,9 +1,9 @@
 {
-  "name": "processor",
+  "name": "worker",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-     "start": "tsc && node dist/index.js"
+    "start": "tsc && node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -11,8 +11,6 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.4.1",
-    "@types/express": "^5.0.0",
-    "express": "^4.21.2",
     "kafkajs": "^2.2.4"
   },
   "devDependencies": {
