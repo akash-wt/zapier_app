@@ -3,21 +3,30 @@ import jwt from "jsonwebtoken"
 import { JWT_PASSWORD } from "./config";
 
 
-export function authMiddleware(req: Request, res: Response, next: NextFunction) {
-    // @ts-ignore
-    const token = req.headers.authorization as unknown as string;
+export function authMiddleware(req: Request, res: Response, next: NextFunction): void {
+
+    const authHeader = req.headers.authorization;
+ 
+
+
+    if (!authHeader) {
+        res.status(403).json({ message: "You are not logged in" });
+        return;
+    }
     try {
+        const token = authHeader.split(" ")[1];
+        console.log(token);
+        
         const payload = jwt.verify(token, JWT_PASSWORD);
         if (payload) {
             // @ts-ignore
             req.id = payload.id
-
         }
         next();
     }
     catch (e) {
-        return res.status(403).json({
-            message: "You are not logged in"
+        res.status(403).json({
+            message: "You are not log in"
         })
 
     }
