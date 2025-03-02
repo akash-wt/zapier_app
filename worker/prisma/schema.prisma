@@ -12,13 +12,16 @@ model User {
   name     String
   email    String
   password String
+  zaps     Zap[]
 }
 
 model Zap {
   id        String   @id @default(uuid())
   triggerId String
-  trigger   Trigger?
+  userId    Int
   actions   Action[]
+  trigger   Trigger?
+  user      User     @relation(fields: [userId], references: [id])
   zapRuns   ZapRun[]
 }
 
@@ -37,21 +40,21 @@ model ZapRunOutbox {
 }
 
 model Trigger {
-  id           String            @id @default(uuid())
-  zapId        String            @unique
-  triggerId    String
-  type         AvailableTriggers @relation(fields: [triggerId], references: [id])
-  zap          Zap               @relation(fields: [zapId], references: [id])
-  
+  id        String            @id @default(uuid())
+  zapId     String            @unique
+  triggerId String
+  type      AvailableTriggers @relation(fields: [triggerId], references: [id])
+  zap       Zap               @relation(fields: [zapId], references: [id])
 }
 
 model Action {
-  id       String          @id @default(uuid())
-  zapId    String
-  zap      Zap             @relation(fields: [zapId], references: [id])
-  actionId String
-  type     AvailableAction @relation(fields: [actionId], references: [id])
-  sortingOrder Int               @default(0)
+  id           String          @id @default(uuid())
+  zapId        String
+  actionId     String
+  sortingOrder Int             @default(0)
+  type         AvailableAction @relation(fields: [actionId], references: [id])
+  zap          Zap             @relation(fields: [zapId], references: [id])
+  metadata     Json            @default("{}")
 }
 
 model AvailableAction {

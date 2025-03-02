@@ -18,11 +18,11 @@ model User {
 model Zap {
   id        String   @id @default(uuid())
   triggerId String
-  userId    Int 
-  trigger   Trigger?
+  userId    Int
   actions   Action[]
-  zapRuns   ZapRun[]
+  trigger   Trigger?
   user      User     @relation(fields: [userId], references: [id])
+  zapRuns   ZapRun[]
 }
 
 model ZapRun {
@@ -50,10 +50,11 @@ model Trigger {
 model Action {
   id           String          @id @default(uuid())
   zapId        String
-  zap          Zap             @relation(fields: [zapId], references: [id])
   actionId     String
-  type         AvailableAction @relation(fields: [actionId], references: [id])
   sortingOrder Int             @default(0)
+  type         AvailableAction @relation(fields: [actionId], references: [id])
+  zap          Zap             @relation(fields: [zapId], references: [id])
+  metadata     Json            @default("{}")
 }
 
 model AvailableAction {

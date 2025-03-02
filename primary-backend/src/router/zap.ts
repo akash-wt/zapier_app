@@ -27,7 +27,7 @@ router.post("/", authMiddleware, async (req, res) => {
                     create: parsedData.data.actions.map((x, index) => ({
                         actionId: x.availableActionId,
                         sortingOrder: index,
-                        metadata: x.actionMetadata
+                        metadata: x.actionMetadata|| {}
                     }))
                 }
             }
