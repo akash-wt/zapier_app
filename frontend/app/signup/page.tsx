@@ -29,6 +29,10 @@ export default function Signup() {
 
                         <Input label="Password" onChange={e => { }} placeholder="Password" type="password" />
 
+
+                        <div className="pt-4">
+                            <PrimaryButton onClick={() => { }} size="big"> Get Started Free</PrimaryButton>
+                        </div>
                     </div>
                 </div>
             </div>
