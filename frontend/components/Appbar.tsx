@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { LinkButton } from "./buttons/LinkButton";
 import { PrimaryButton } from "./buttons/PrimaryButton";
+import { Logo } from "./Logo";
 
 export default function Appbar() {
     const router = useRouter();
@@ -10,7 +11,7 @@ export default function Appbar() {
         <div className="flex border-b justify-between p-4 ">
 
             <div className="flex flex-col justify-center text-2xl font-extrabold">
-                Zapier
+                <Logo />
             </div>
 
             <div className="flex ">
