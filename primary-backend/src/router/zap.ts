@@ -67,7 +67,8 @@ router.get("/", authMiddleware, async (req, res) => {
         include: {
             actions: {
                 include: {
-                    type: true
+                    type: true,
+                    
                 }
             },
             trigger: {
@@ -77,6 +78,7 @@ router.get("/", authMiddleware, async (req, res) => {
             }
         }
     })
+console.log(zaps);
 
     res.json({
         zaps
