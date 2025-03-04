@@ -11,7 +11,12 @@ export default function Appbar() {
         <div className="flex border-b justify-between p-4 ">
 
             <div className="flex flex-col justify-center text-2xl font-extrabold">
-                <Logo />
+                <div  className="cursor-pointer" onClick={() => {
+                    router.push("/dashboard");
+                }}>
+
+                    <Logo />
+                </div>
             </div>
 
             <div className="flex ">
