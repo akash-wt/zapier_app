@@ -6,6 +6,8 @@ import { PrimaryButton } from "../../../components/buttons/PrimaryButton";
 import { ZapCell } from "../../../components/ZapCell";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
+import { Input } from "../../../components/Input";
+import { metadata } from "../../layout";
 
 
 function useAvailableActionsAndTriggers() {
@@ -82,7 +84,7 @@ export default function ZapCreate() {
 
                         setSelectedModalIndex(1);
 
-                    }} name={selectedTrigger?.name ? setSelectedTrigger.name : "Trigger"} index={1} />
+                    }} name={selectedTrigger?.name ? selectedTrigger.name : "Trigger"} index={1} />
                 </div>
 
                 <div className="w-full pt-2 p-b">
@@ -92,7 +94,7 @@ export default function ZapCreate() {
                 </div>
 
 
-                <div className="flex justify-center">
+                <div className="flex justify-center mt-4">
                     <div>
                         <PrimaryButton onClick={() => {
                             setSelectedActions(a => [...a, {
@@ -102,7 +104,7 @@ export default function ZapCreate() {
                                 metadata: {}
                             }])
 
-                        }}>  <div className="text-2xl">+</div></PrimaryButton>
+                        }}>  <div className="text-2xl ">+</div></PrimaryButton>
                     </div>
                 </div>
             </div>
@@ -169,26 +171,49 @@ function Modal({ index, onSelect, availableItems }: { index: number, onSelect: (
                     </button>
                 </div>
                 <div className="p-4 md:p-5 space-y-4">
-                    {step === 0 && <div>{availableItems.map(({ id, name, image }) => {
-                        return <div key={id} onClick={() => {
-                            if (isTrigger) {
-                                onSelect({
-                                    id,
-                                    name,
-                                    metadata: {}
-                                })
-                            } else {
-                                setStep(s => s + 1);
-                                setSelectedAction({
-                                    id,
-                                    name
-                                })
-                            }
-                        }}
-                            className="flex border p-4 cursor-pointer hover:bg-slate-100">
-                            <img src={image} key={id} width={30} className="rounded-full" /> <div className="flex flex-col justify-center"> {name} </div>
-                        </div>
-                    })}</div>}
+                    {step == 1 && selectedAction?.id === "email" &&
+                        <EmailSelector setMetadata={(metadata) => {
+                            onSelect({
+                                ...selectedAction,
+                                metadata
+                            })
+                        }} />}
+
+
+                    {step === 1 && selectedAction?.id === "solana" &&
+                        <SolanaSelector setMetadata={(metadata) => {
+                            onSelect({
+                                ...selectedAction,
+                                metadata
+                            })
+                        }} />}
+
+
+                    {step == 0 && <div>
+                        {availableItems.map(({ id, name, image }) => {
+                            return <div key={id} onClick={() => {
+
+                                if (isTrigger) {
+                                    onSelect({
+                                        id,
+                                        name,
+                                        metadata: {}
+                                    })
+                                }
+                                else {
+                                    setStep(s => s + 1);
+                                    setSelectedAction({
+                                        id,
+                                        name
+                                    })
+                                }
+
+                            }}
+                                className="flex border p-4 cursor-pointer hover:bg-slate-100">
+                                <img src={image} key={id} width={30} className="rounded-full" alt="Img" /> <div className="flex flex-col justify-center"> {name} </div>
+                            </div>
+                        })}
+                    </div>}
 
                 </div>
             </div>
@@ -200,3 +225,44 @@ function Modal({ index, onSelect, availableItems }: { index: number, onSelect: (
 }
 
 
+
+
+function EmailSelector({ setMetadata }: {
+    setMetadata: (params: any) => void;
+}) {
+    const [email, setEmail] = useState("");
+    const [body, setBody] = useState("");
+
+    return <div>
+        <Input label={"To"} type={"text"} placeholder="To" onChange={(e) => setEmail(e.target.value)}></Input>
+        <Input label={"Body"} type={"text"} placeholder="Body" onChange={(e) => setBody(e.target.value)}></Input>
+        <div className="pt-2">
+            <PrimaryButton onClick={() => {
+                setMetadata({
+                    email,
+                    body
+                })
+            }}>Submit</PrimaryButton>
+        </div>
+    </div>
+}
+
+function SolanaSelector({ setMetadata }: {
+    setMetadata: (params: any) => void;
+}) {
+    const [amount, setAmount] = useState("");
+    const [address, setAddress] = useState("");
+
+    return <div>
+        <Input label={"To"} type={"text"} placeholder="To" onChange={(e) => setAddress(e.target.value)}></Input>
+        <Input label={"Amount"} type={"text"} placeholder="To" onChange={(e) => setAmount(e.target.value)}></Input>
+        <div className="pt-4">
+            <PrimaryButton onClick={() => {
+                setMetadata({
+                    amount,
+                    address
+                })
+            }}>Submit</PrimaryButton>
+        </div>
+    </div>
+}
