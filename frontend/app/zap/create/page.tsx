@@ -1,5 +1,5 @@
 "use client";
-
+import Image from 'next/image'
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PrimaryButton } from "../../../components/buttons/PrimaryButton";
@@ -59,7 +59,7 @@ export default function ZapCreate() {
                             return;
 
                         }
-                        const response = await axios.post(`${BACKEND_URL}/api/v1/zap`, {
+                         await axios.post(`${BACKEND_URL}/api/v1/zap`, {
                             "availableTriggerId": selectedTrigger.id,
                             "triggerMetadata": {},
                             "actions": selectedActions.map(a => ({
@@ -111,7 +111,7 @@ export default function ZapCreate() {
 
 
 
-            {selectedModalIndex && <Modal availableItems={selectedModalIndex === 1 ? availableTriggers : availableActions} onSelect={(props: null | { name: string; id: string; metadata: any; }) => {
+            {selectedModalIndex && <Modal availableItems={selectedModalIndex === 1 ? availableTriggers : availableActions} onSelect={(props: null | { name: string; id: string; metadata: any }) => {
 
                 if (props === null) {
                     setSelectedModalIndex(null);
@@ -146,7 +146,7 @@ export default function ZapCreate() {
 
 
 
-function Modal({ index, onSelect, availableItems }: { index: number, onSelect: (props: null | { name: string; id: string; metadata: any; }) => void, availableItems: { id: string, name: string, index: string, image: string; }[] }) {
+function Modal({ index, onSelect, availableItems }: { index: number, onSelect: (props: null | { name: string; id: string; metadata: any }) => void, availableItems: { id: string, name: string, index: string, image: string; }[] }) {
     const [step, setStep] = useState(0);
     const [selectedAction, setSelectedAction] = useState<{
         id: string;
@@ -210,7 +210,9 @@ function Modal({ index, onSelect, availableItems }: { index: number, onSelect: (
 
                             }}
                                 className="flex border p-4 cursor-pointer hover:bg-slate-100">
-                                <img src={image} key={id} width={30} className="rounded-full" alt="Img" /> <div className="flex flex-col justify-center"> {name} </div>
+                                
+                                <Image src={image} key={id} width={30} className='rounded-full' alt='Img'/>
+                                <div className="flex flex-col justify-center"> {name} </div>
                             </div>
                         })}
                     </div>}

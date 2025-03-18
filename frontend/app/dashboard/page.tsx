@@ -1,5 +1,6 @@
 "use client"
-import Image from "next/image";
+
+import Image from 'next/image'
 import { DarkButton } from "../../components/buttons/DarkButton";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -84,7 +85,7 @@ export default function Dashboard() {
                 </div>
             </div>
         </div>
-        {loading ? <div className="text-center mt-20">Loading... </div>: <div className="flex justify-center"> <ZapTable zaps={zaps} /> </div>}
+        {loading ? <div className="text-center mt-20">Loading... </div> : <div className="flex justify-center"> <ZapTable zaps={zaps} /> </div>}
     </div>
 }
 
@@ -103,9 +104,9 @@ function ZapTable({ zaps }: { zaps: Zap[] }) {
         {zaps.map(z => <div key={z.id} className="flex border-b border-t py-4 items-center">
 
             <div className="flex-1 flex items-center gap-2">
-                <img src={z.trigger.type.image} alt="Img" width={30} height={30}  className="rounded-md object-contain" />
+                <Image src={z.trigger.type.image} alt="Img" width={30} height={30} className="rounded-md object-contain" />
                 {z.actions.map(x => (
-                    <img key={x.id} src={x.type.image} alt="Img" width={30} height={30}  className=" rounded-md object-contain" />
+                    <Image key={x.id} src={x.type.image} alt="Img" width={30} height={30} className=" rounded-md object-contain" />
                 ))}
             </div>
 
